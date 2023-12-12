@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <format>
 #include <string>
+#include <sstream>
 
 
 class Polynomial {
@@ -32,7 +33,7 @@ public:
 
 	int degree() const; // returns the degree of the polynomial
 
-	explicit operator std::string() const; // gör om polynom till string
+	explicit operator std::string(); // gör om polynom till string
 
 	
 	Polynomial operator+=(const Polynomial& rhs);

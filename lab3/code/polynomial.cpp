@@ -60,81 +60,105 @@ int Polynomial::degree() const { // returns the degree of the polynomial
 	return degree;
 }
 
-Polynomial::operator std::string() const {// gör om polynom till string
-	//HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEELP PLS 
-
-	if (coeff.empty()) {
-		return "-1";
-	}
-
-	std::string result;
-
-	bool first = true;
-
-	for (const auto& e : coeff) {
-		if (!first) {
-			result += (e.second >= 0 ? " + " : " - ");
-		}
-		else {
-			first = false;
-		}
-
-		result += std::to_string(std::abs(e.second)) + "X^" + std::to_string(e.first);
-	}
-	if (result == "") {
-		return "0";
-	}
-	else {
-
-		return result;
-	}
-}
-
-#if 0
-Polynomial::operator std::string() const {// gör om polynom till string
+Polynomial::operator std::string() {// gör om polynom till string
 
 	std::string result = "";
 
+	bool first = true;
+
 	for (std::pair p : coeff) {
-		if (p.first == 0) {
-			result += p.second;
-		} 
-		else {
-			if (p.second < 0) {
-				result += std::format(" - {}X^{}", abs(p.second), p.first);
-			}
-			else {
-				result += std::format(" + {}X^{}", abs(p.second), p.first);
-			}
-			
+
+		if (!first) {
+			result += (p.second >= 0 ? " + " : " - ");
 		}
+
+		if (std::ssize(coeff) == 1 && p.second == 0) {
+			return "0";
+		}
+
+		if (p.first == 0) {
+			result += std::format("{}X^{}", p.second, 0);
+		} 
+
+		else {
+			result += std::format("{}X^{}", abs(p.second), p.first);
+		}
+		first = false;
 	}
 	return result;
 }
-#endif
 
-#if 0
-Polynomial operator+=(const Polynomial& rhs);
-Polynomial operator-=(const Polynomial& rhs);
-Polynomial operator*=(const Polynomial& rhs);
+#if 1
+Polynomial Polynomial::operator+=(const Polynomial& rhs) {
+	for (const auto& e : rhs.coeff) {
+		coeff[e.first] += e.second;
 
-Polynomial operator+=(int rhs);
-Polynomial operator-=(int rhs);
-Polynomial operator*=(int rhs);
+		if (coeff[e.first] == 0) {
+			coeff.erase(e.first);
+		}
+	}
 
-friend Polynomial operator+(Polynomial& lhs, const Polynomial& rhs);
-friend Polynomial operator-(Polynomial& lhs, const Polynomial& rhs);
-friend Polynomial operator*(Polynomial& lhs, const Polynomial& rhs);
+	return *this;
+}
 
-friend Polynomial operator+(Polynomial& lhs, int rhs);
-friend Polynomial operator-(Polynomial& lhs, int rhs);
-friend Polynomial operator*(Polynomial& lhs, int rhs);
+Polynomial Polynomial::operator-=(const Polynomial& rhs) {
+	for (const auto& e : rhs.coeff) {
+		coeff[e.first] -= e.second;
 
-friend Polynomial operator+(int lhs, const Polynomial& rhs);
-friend Polynomial operator-(int lhs, const Polynomial& rhs);
-friend Polynomial operator*(int lhs, const Polynomial& rhs);
+		if (coeff[e.first] == 0) {
+			coeff.erase(e.first);
+		}
+	}
 
-friend bool operator==(const Polynomial& lhs, const Polynomial& rhs);
-friend std::ostream& operator<<(std::ostream& os, const Polynomial& p);
+	return* this;
+}
+Polynomial Polynomial::operator*=(const Polynomial& rhs) {
+
+}
+
+Polynomial Polynomial::operator+=(int rhs) {
+
+}
+
+Polynomial Polynomial::operator-=(int rhs) {
+
+}
+
+Polynomial Polynomial::operator*=(int rhs) {
+
+}
+
+Polynomial Polynomial::operator+(Polynomial& lhs, const Polynomial& rhs) {
+
+}
+Polynomial Polynomial::operator-(Polynomial& lhs, const Polynomial& rhs) {
+
+}
+Polynomial Polynomial::operator*(Polynomial& lhs, const Polynomial& rhs) {
+
+}
+
+Polynomial Polynomial::operator+(Polynomial& lhs, int rhs) {
+
+}
+Polynomial Polynomial::operator-(Polynomial& lhs, int rhs) {
+
+}
+Polynomial Polynomial::operator*(Polynomial& lhs, int rhs) {
+
+}
+
+Polynomial Polynomial::operator+(int lhs, const Polynomial& rhs) {
+
+}
+Polynomial Polynomial::operator-(int lhs, const Polynomial& rhs) {
+
+}
+Polynomial Polynomial::operator*(int lhs, const Polynomial& rhs) {
+
+}
+
+bool operator==(const Polynomial& lhs, const Polynomial& rhs);
+std::ostream& operator<<(std::ostream& os, const Polynomial& p);
 
 #endif
