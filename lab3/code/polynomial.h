@@ -27,6 +27,8 @@ public:
 
 	Polynomial(const std::vector<std::pair<int, int>>& terms);
 
+	Polynomial multiply(std::pair<int, int>);
+
 	Polynomial(const Polynomial& rhs); // copy constructor
 
 	Polynomial& operator=(const Polynomial& rhs); // assignment operator
@@ -40,24 +42,22 @@ public:
 	Polynomial operator-=(const Polynomial& rhs);
 	Polynomial operator*=(const Polynomial& rhs);
 
-	Polynomial operator+=(int rhs);
-	Polynomial operator-=(int rhs);
-	Polynomial operator*=(int rhs);
-
-	friend Polynomial operator+(Polynomial& lhs, const Polynomial& rhs);
-	friend Polynomial operator-(Polynomial& lhs, const Polynomial& rhs);
-	friend Polynomial operator*(Polynomial& lhs, const Polynomial& rhs);
-
-	friend Polynomial operator+(Polynomial& lhs, int rhs);
-	friend Polynomial operator-(Polynomial& lhs, int rhs);
-	friend Polynomial operator*(Polynomial& lhs, int rhs);
-
-	friend Polynomial operator+(int lhs, const Polynomial& rhs);
-	friend Polynomial operator-(int lhs, const Polynomial& rhs);
-	friend Polynomial operator*(int lhs, const Polynomial& rhs);
+	friend Polynomial operator+(Polynomial& lhs, const Polynomial& rhs) {
+		return lhs += rhs;
+	}
+	friend Polynomial operator-(Polynomial& lhs, const Polynomial& rhs) {
+		return lhs -= rhs;
+	}
+	friend Polynomial operator*(Polynomial& lhs, const Polynomial& rhs) {
+		return lhs *= rhs;
+	}
 
 	friend bool operator==(const Polynomial& lhs, const Polynomial& rhs);
-	friend std::ostream& operator<<(std::ostream& os, const Polynomial& p);
+
+	friend std::ostream& operator<<(std::ostream& os, const Polynomial& p) {
+		os << std::string(p);
+		return os;
+	}
 
 
 

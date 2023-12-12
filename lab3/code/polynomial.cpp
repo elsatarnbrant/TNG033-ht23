@@ -17,17 +17,10 @@ Polynomial::Polynomial(int x, int y) {
 	}
 }
 
-Polynomial::Polynomial() : coeff{{{0,0}}} {}
+Polynomial::Polynomial() : coeff{ {{0,0}} } {}
 
-// vi försökte med for_each och skit men funka ej HUUUUUUR????? :((((
-// går igenom vektor med par av koffecinter och exponenter, ex. {2,3} => 2x^3
-// lägger in koefficinten i vektor på platsen för exponenten ex. {2,3} sätter in 2 på index 3 :D))))
-Polynomial::Polynomial(const std::vector<std::pair<int, int>>& terms) {
-	for (const auto& e : terms) {
-		if (e.second != 0) {
-			coeff[e.first] = e.second;
-		}
-	}
+Polynomial::Polynomial(const std::vector<std::pair<int, int>>& terms) { // kopiera från verktorn till mappen
+	std::copy(terms.begin(), terms.end(), std::inserter(coeff, end(coeff))); // itererar genom vektorn och stoppar in längst bak i coeff
 }
 
 Polynomial::Polynomial(const Polynomial& rhs) { // copy constructor
@@ -66,29 +59,26 @@ Polynomial::operator std::string() {// gör om polynom till string
 
 	bool first = true;
 
+
+
 	for (std::pair p : coeff) {
-
-		if (!first) {
-			result += (p.second >= 0 ? " + " : " - ");
-		}
-
 		if (std::ssize(coeff) == 1 && p.second == 0) {
 			return "0";
 		}
 
-		if (p.first == 0) {
-			result += std::format("{}X^{}", p.second, 0);
-		} 
-
-		else {
-			result += std::format("{}X^{}", abs(p.second), p.first);
+		if (first) {
+			result += std::format("{}X^{}", p.second, p.first);
+			first = false;
 		}
-		first = false;
+		else {	
+			result += (p.second >= 0 ? " + " : " - ");
+				result += std::format("{}X^{}", abs(p.second), p.first);
+		}
 	}
 	return result;
 }
 
-#if 1
+
 Polynomial Polynomial::operator+=(const Polynomial& rhs) {
 	for (const auto& e : rhs.coeff) {
 		coeff[e.first] += e.second;
@@ -110,55 +100,52 @@ Polynomial Polynomial::operator-=(const Polynomial& rhs) {
 		}
 	}
 
-	return* this;
+	return*this;
 }
+
+
 Polynomial Polynomial::operator*=(const Polynomial& rhs) {
 
+	Polynomial result;
+
+	if (this->coeff.empty() || rhs.coeff.empty()) {
+		this->coeff.clear();
+		return *this;
+	}
+
+	Polynomial rhs2 = rhs;
+
+	for (auto e : coeff) {
+
+		result += rhs2.multiply(e);
+	}
+
+	*this = result;
+
+	return *this;
 }
 
-Polynomial Polynomial::operator+=(int rhs) {
 
+Polynomial Polynomial::multiply(std::pair<int, int> terms) {
+
+	Polynomial result;
+
+	for (std::pair<int, int> e : this->coeff) {
+		int exponent = e.first + terms.first;
+		int coefficient = e.second * terms.second;
+		result.coeff[exponent] = coefficient;
+	}
+
+	return result;
 }
 
-Polynomial Polynomial::operator-=(int rhs) {
+bool operator==(const Polynomial& lhs, const Polynomial& rhs) {
 
-}
-
-Polynomial Polynomial::operator*=(int rhs) {
-
-}
-
-Polynomial Polynomial::operator+(Polynomial& lhs, const Polynomial& rhs) {
-
-}
-Polynomial Polynomial::operator-(Polynomial& lhs, const Polynomial& rhs) {
-
-}
-Polynomial Polynomial::operator*(Polynomial& lhs, const Polynomial& rhs) {
-
-}
-
-Polynomial Polynomial::operator+(Polynomial& lhs, int rhs) {
-
-}
-Polynomial Polynomial::operator-(Polynomial& lhs, int rhs) {
-
-}
-Polynomial Polynomial::operator*(Polynomial& lhs, int rhs) {
-
-}
-
-Polynomial Polynomial::operator+(int lhs, const Polynomial& rhs) {
-
-}
-Polynomial Polynomial::operator-(int lhs, const Polynomial& rhs) {
-
-}
-Polynomial Polynomial::operator*(int lhs, const Polynomial& rhs) {
+	return lhs.coeff == rhs.coeff;
 
 }
 
-bool operator==(const Polynomial& lhs, const Polynomial& rhs);
-std::ostream& operator<<(std::ostream& os, const Polynomial& p);
-
-#endif
+std::ostream& operator<<(std::ostream& os, const Polynomial& p) {
+	os << std::string(p);
+	return os;
+}

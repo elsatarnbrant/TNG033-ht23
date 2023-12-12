@@ -40,11 +40,13 @@ int main() {
 
     // Create polynomial p2 = -8X^0 + 2X^1 + 5X^2 + 10X^4 - X^6 + 3X^16
     Polynomial p4{ {{0, -8}, {1, 2}, {2, 5}, {4, 10}, {6, -1}, {16, 3}} };
+    std::cout << std::string(p4);
+
     assert(std::string(p4) == std::string("-8X^0 + 2X^1 + 5X^2 + 10X^4 - 1X^6 + 3X^16"));
     assert(p4.degree() == 16);
 
 
-#if 0
+
     /*********************************************
      * Test 2: operator+=                        *
      **********************************************/
@@ -62,20 +64,20 @@ int main() {
     p3 -= p4;
     assert(std::string(p3) == std::string("2X^1 - 5X^2 + 1X^6"));
     assert(p3.degree() == 6);
-
+#if 1
     /*********************************************
      * Test 4: operator*= and                     *
      **********************************************/
     std::cout << "** Test 4:  operator*=\n\n";
 
     p3 *= p4;
-    assert(std::string(p3) == std::string("-16X^1 + 44X^2 - 25X^4 + 20X^5 - 58X^6 + 10X^8 + 10X^10 "
-                                          "- 1X^12 + 6X^17 - 15X^18 + 3X^22"));
+    assert(std::string(p3) == std::string("-16X^1 + 44X^2 - 25X^4 + 20X^5 - 58X^6 + 10X^8 + 10X^10 - 1X^12 + 6X^17 - 15X^18 + 3X^22"));
     assert(p3.degree() == 22);
-
+#endif
     /*********************************************
      * Test 5: operator==                         *
      **********************************************/
+    std::cout << "** Test 5:  operator*=\n\n";
     assert(p3 == Polynomial({{1, -16},
                              {2, 44},
                              {4, -25},
@@ -87,7 +89,7 @@ int main() {
                              {17, 6},
                              {18, -15},
                              {22, 3}}));
-
+#if 1
     /*************************************************
      * Test 6: operator+, operator-, operator*, and  *
      *         operator<<                            *
@@ -95,7 +97,7 @@ int main() {
     std::cout << "** Test 6:  operator+, operator-, operator*, operator<<\n\n";
 
     p4 = p3 * p3;
-    std::cout << "p4 = " << p4 << "\n\n";
+    // std::cout << "p4 = " << p4 << "\n\n";
     assert(p4.degree() == 44);
 
     p0 = Polynomial({{11, -2640},
@@ -122,7 +124,8 @@ int main() {
                        "1320X^9 + 4180X^10 - 648X^28 - 12X^29 + 90X^30 + 60X^32 + 30X^34 - 180X^35 "
                        "+ 225X^36 + 36X^39 - 90X^40 + 9X^44"));
     assert(p0.degree() == 44);
-
+#endif
+    #if 0
     /*************************************************
      * Test 7: mixed-mode operations                 *
      *************************************************/
