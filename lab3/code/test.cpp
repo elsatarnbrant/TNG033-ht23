@@ -97,7 +97,7 @@ int main() {
     std::cout << "** Test 6:  operator+, operator-, operator*, operator<<\n\n";
 
     p4 = p3 * p3;
-    // std::cout << "p4 = " << p4 << "\n\n";
+    std::cout << "p4 = " << p4 << "\n\n";
     assert(p4.degree() == 44);
 
     p0 = Polynomial({{11, -2640},

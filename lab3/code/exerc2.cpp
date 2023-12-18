@@ -10,6 +10,7 @@
 #include <utility>   //std::pair
 #include <fstream>
 #include <cassert>
+#include <algorithm>
 
 
 // A function to test the output of the program
@@ -35,16 +36,49 @@ int main() {
     std::map<std::string, int> table;
     int counter{0};  // to count total number of words read from the input file
 
-    //ADD CODE to build table
+    std::string ignore = ".,!?:\"();";
+    std::string word;
+
+    while (in_File >> word) {
+
+        // remove 
+        word.erase(
+            std::remove_if(word.begin(), word.end(), [ignore](auto c) {
+                return ignore.contains(c);
+                }
+            ),
+            word.end()
+        );
+
+        // transform to lowercase
+
+        std::transform(word.begin(), word.end(), word.begin(), [](auto c) {
+            return std::tolower(c);
+        });
+
+        counter++;
+        table[word]++;
+    }
+   
+
+    // ADD CODE to build table
 
     std::vector<std::pair<std::string, int>> freq;
 
-    //ADD CODE to build vector freq
+    // ADD CODE to build vector freq
 
+    std::transform(table.begin(), table.end(), std::back_inserter(freq), [](const auto& pair) {
+        return pair;
+        });
+    
+    std::sort(freq.begin(), freq.end(), [](const auto& a, const auto& b) {
+        // är dom samma ? sätt i alfabetisk ordning annars sortera efter antal
+        return a.second == b.second ? a.first < b.first : a.second > b.second;
+        });
 
     /* ************** Testing **************** */
 
-    test(table, freq, name, counter);
+    test(table, freq, file_name, counter);
 }
 
 

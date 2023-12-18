@@ -53,7 +53,7 @@ int Polynomial::degree() const { // returns the degree of the polynomial
 	return degree;
 }
 
-Polynomial::operator std::string() {// gör om polynom till string
+Polynomial::operator std::string() const {// gör om polynom till string
 
 	std::string result = "";
 
@@ -144,6 +144,28 @@ bool operator==(const Polynomial& lhs, const Polynomial& rhs) {
 	return lhs.coeff == rhs.coeff;
 
 }
+
+Polynomial operator +(Polynomial& lhs, const Polynomial& rhs) {
+	return lhs += rhs;
+}
+
+Polynomial operator +(Polynomial& lhs, const int rhs) {
+	return lhs += rhs;
+}
+
+
+Polynomial operator +(int lhs, const Polynomial& rhs) {
+	return lhs + rhs;
+}
+
+Polynomial operator-(Polynomial& lhs, const Polynomial& rhs) {
+	return lhs -= rhs;
+}
+
+Polynomial operator*(Polynomial& lhs, const Polynomial& rhs) {
+	return lhs *= rhs;
+}
+
 
 std::ostream& operator<<(std::ostream& os, const Polynomial& p) {
 	os << std::string(p);

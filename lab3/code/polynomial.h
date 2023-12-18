@@ -13,8 +13,6 @@
 #include <algorithm>
 #include <format>
 #include <string>
-#include <sstream>
-
 
 class Polynomial {
 
@@ -35,29 +33,26 @@ public:
 
 	int degree() const; // returns the degree of the polynomial
 
-	explicit operator std::string(); // gör om polynom till string
+	explicit operator std::string() const; // gör om polynom till string
 
 	
 	Polynomial operator+=(const Polynomial& rhs);
 	Polynomial operator-=(const Polynomial& rhs);
 	Polynomial operator*=(const Polynomial& rhs);
+	friend Polynomial operator +(Polynomial& lhs, const Polynomial& rhs);
 
-	friend Polynomial operator+(Polynomial& lhs, const Polynomial& rhs) {
-		return lhs += rhs;
-	}
-	friend Polynomial operator-(Polynomial& lhs, const Polynomial& rhs) {
-		return lhs -= rhs;
-	}
-	friend Polynomial operator*(Polynomial& lhs, const Polynomial& rhs) {
-		return lhs *= rhs;
-	}
+	friend Polynomial operator +(Polynomial& lhs, const int rhs);
+
+
+	friend Polynomial operator +(int lhs, const Polynomial& rhs);
+
+	friend Polynomial operator-(Polynomial& lhs, const Polynomial& rhs);
+
+	friend Polynomial operator*(Polynomial& lhs, const Polynomial& rhs);
 
 	friend bool operator==(const Polynomial& lhs, const Polynomial& rhs);
 
-	friend std::ostream& operator<<(std::ostream& os, const Polynomial& p) {
-		os << std::string(p);
-		return os;
-	}
+	friend std::ostream& operator<<(std::ostream& os, const Polynomial& p);
 
 
 
