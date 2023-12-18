@@ -40,8 +40,6 @@ int main() {
 
     // Create polynomial p2 = -8X^0 + 2X^1 + 5X^2 + 10X^4 - X^6 + 3X^16
     Polynomial p4{ {{0, -8}, {1, 2}, {2, 5}, {4, 10}, {6, -1}, {16, 3}} };
-    std::cout << std::string(p4);
-
     assert(std::string(p4) == std::string("-8X^0 + 2X^1 + 5X^2 + 10X^4 - 1X^6 + 3X^16"));
     assert(p4.degree() == 16);
 
@@ -117,13 +115,11 @@ int main() {
                      {25, 120},
                      {26, -450},
                      {27, 240}});
-    std::cout << p1 << "innan \n";
     p0 = p4 - p0 + p1 * p2;
     assert(std::string(p0) ==
            std::string("266X^2 - 1408X^3 + 1936X^4 + 800X^5 - 2840X^6 + 3616X^7 - 4479X^8 - "
                        "1320X^9 + 4180X^10 - 648X^28 - 12X^29 + 90X^30 + 60X^32 + 30X^34 - 180X^35 "
                        "+ 225X^36 + 36X^39 - 90X^40 + 9X^44"));
-    std::cout << p1 << " efter\n";
     assert(p0.degree() == 44);
 #endif
     #if 1

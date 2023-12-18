@@ -61,17 +61,17 @@ Polynomial::operator std::string() const {// gör om polynom till string
 
 
 
-	for (std::pair p : coeff) {
-		if (std::ssize(coeff) == 1 && p.second == 0) {
+	for (std::pair p : coeff) { // går igenom varje par i coeff
+		if (std::ssize(coeff) == 1 && p.second == 0) { // om ett element eller exponent är noll 
 			return "0";
 		}
 
-		if (first) {
+		if (first) { // om första elementet
 			result += std::format("{}X^{}", p.second, p.first);
 			first = false;
 		}
 		else {	
-			result += (p.second >= 0 ? " + " : " - ");
+			result += (p.second >= 0 ? " + " : " - "); // bestäm tecken som ska ara framför
 				result += std::format("{}X^{}", abs(p.second), p.first);
 		}
 	}
@@ -81,7 +81,19 @@ Polynomial::operator std::string() const {// gör om polynom till string
 
 Polynomial Polynomial::operator+=(const Polynomial& rhs) {
 	for (const auto& e : rhs.coeff) {
-		coeff[e.first] += e.second;
+		coeff[e.first] += e.second; // adderar ihop koeff med samma exponent
+
+		if (coeff[e.first] == 0) {
+			coeff.erase(e.first); 
+		}
+	}
+
+	return *this;
+}
+
+Polynomial Polynomial::operator-=(const Polynomial& rhs) {
+	for (const auto& e : rhs.coeff) {
+		coeff[e.first] -= e.second; // subrtaherar koeff med samma exponent
 
 		if (coeff[e.first] == 0) {
 			coeff.erase(e.first);
@@ -91,33 +103,21 @@ Polynomial Polynomial::operator+=(const Polynomial& rhs) {
 	return *this;
 }
 
-Polynomial Polynomial::operator-=(const Polynomial& rhs) {
-	for (const auto& e : rhs.coeff) {
-		coeff[e.first] -= e.second;
-
-		if (coeff[e.first] == 0) {
-			coeff.erase(e.first);
-		}
-	}
-
-	return*this;
-}
-
 
 Polynomial Polynomial::operator*=(const Polynomial& rhs) {
 
 	Polynomial result;
 
-	if (this->coeff.empty() || rhs.coeff.empty()) {
+	if (this->coeff.empty() || rhs.coeff.empty()) { // retunerar tom coeff
 		this->coeff.clear();
 		return *this;
 	}
 
 	Polynomial rhs2 = rhs;
 
-	for (auto e : coeff) {
+	for (auto e : coeff) { // 
 
-		result += rhs2.multiply(e);
+		result += rhs2.multiply(e); // multiplicerar en term med 
 	}
 
 	*this = result;
@@ -130,50 +130,46 @@ Polynomial Polynomial::multiply(std::pair<int, int> terms) {
 
 	Polynomial result;
 
-	for (std::pair<int, int> e : this->coeff) {
-		int exponent = e.first + terms.first;
-		int coefficient = e.second * terms.second;
-		result.coeff[exponent] = coefficient;
+	for (std::pair<int, int> e : this->coeff) { // för varje term i Polynomial this (rhs2), multiplicerar med pair
+
+		int exponent = e.first + terms.first; // adderar exponeterna
+		int coefficient = e.second * terms.second; // multiplicerar koeff
+		result.coeff[exponent] = coefficient; // lägger in på rätt plats, exp är index
 	}
 
 	return result;
 }
 
-bool operator==(const Polynomial& lhs, const Polynomial& rhs) {
+bool operator==(const Polynomial& lhs, const Polynomial& rhs) { // kollar om lika
 	return lhs.coeff == rhs.coeff;
 }
 
-Polynomial operator+(Polynomial lhs, const Polynomial& rhs) {
+Polynomial operator+(Polynomial lhs, const Polynomial& rhs) { // två polynom
 	return lhs += rhs;
 }
 
-Polynomial operator+(Polynomial& lhs, const int rhs) {
+Polynomial operator+(Polynomial& lhs, const int rhs) { // polynom och int
 	return lhs += Polynomial(rhs);
 }
 
 
-Polynomial operator+(int lhs, const Polynomial& rhs) {
-	return Polynomial(lhs) += rhs;
-}
-
-Polynomial operator-(Polynomial lhs, const Polynomial& rhs) {
+Polynomial operator-(Polynomial lhs, const Polynomial& rhs) { // två polynom
 	return lhs -= rhs;
 }
 
-// varöfr funkade in förra multiply and assign funktionen????
-Polynomial operator*(Polynomial& lhs, const Polynomial& rhs) {
-	Polynomial result = 1;
+// varöfr funkade inte förra multiply and assign funktionen????
+Polynomial operator*(Polynomial& lhs, const Polynomial& rhs) { 
+	Polynomial result = 1; // multiplicerar lhs med 1 för att int ändra lhs
 	result *= lhs;
 	result *= rhs;
 	return result;
-
 }
 
-Polynomial operator*(int lhs, const Polynomial& rhs) {
+Polynomial operator*(int lhs, const Polynomial& rhs) { // int, polynomial
 	return Polynomial(lhs) *= rhs;
 }
 
-std::ostream& operator<<(std::ostream& os, const Polynomial& p) {
-	os << std::string{ p };
+std::ostream& operator<<(std::ostream& os, const Polynomial& p) { // skriver ut polynom med string funktion
+	os << std::string(p);
 	return os;
 }

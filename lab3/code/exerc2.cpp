@@ -36,43 +36,37 @@ int main() {
     std::map<std::string, int> table;
     int counter{0};  // to count total number of words read from the input file
 
-    std::string ignore = ".,!?:\"();";
+    std::string ignore = ".,!?:\"();"; 
     std::string word;
 
-    while (in_File >> word) {
+    while (in_File >> word) { // läser filen så l'nge det finns ord
 
         // remove 
         word.erase(
-            std::remove_if(word.begin(), word.end(), [ignore](auto c) {
-                return ignore.contains(c);
+            std::remove_if(word.begin(), word.end(), [ignore](auto c) { // går igenom varje bokstav i word, om "bokstaven" c finns i ignore
+                return ignore.contains(c); // tar bort om det innhåller tecken från ignore
                 }
             ),
             word.end()
         );
 
         // transform to lowercase
-
         std::transform(word.begin(), word.end(), word.begin(), [](auto c) {
             return std::tolower(c);
-        });
+            });
 
         counter++;
         table[word]++;
     }
-   
-
-    // ADD CODE to build table
 
     std::vector<std::pair<std::string, int>> freq;
 
-    // ADD CODE to build vector freq
-
-    std::transform(table.begin(), table.end(), std::back_inserter(freq), [](const auto& pair) {
+    std::transform(table.begin(), table.end(), std::back_inserter(freq), [](const auto& pair) { // lägg in från table i freq för att enklare kunna sortera
         return pair;
         });
     
-    std::sort(freq.begin(), freq.end(), [](const auto& a, const auto& b) {
-        // är dom samma ? sätt i alfabetisk ordning annars sortera efter antal
+    std::sort(freq.begin(), freq.end(), [](const auto& a, const auto& b) { // sortera vektor
+        // har dom samma frequence? om ja, ordna i alfabetisk ordning. om nej sortera efter antal frequences
         return a.second == b.second ? a.first < b.first : a.second > b.second;
         });
 

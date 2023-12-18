@@ -24,16 +24,17 @@ int main() {
     std::vector<double> terms(n); // vector with maximum slots of n
     std::iota(begin(terms), end(terms), 0.0); // fills the vector from first to last starting with value then increasing
 
-    std::transform(begin(terms), end(terms), begin(terms), [](double& k) {
+    std::transform(begin(terms), end(terms), begin(terms), [](double& k) { // går igenom terms för varje updaterat index ökar k, varför ändrar sig k? vad är det dom säger det?? 
         return calculate(k);
         });
 
     std::vector<double> power_terms(n);
 
     std::transform(begin(terms), end(terms), begin(power_terms), [i = 0](double) mutable { // mutable tillåter i att ändras
-        return std::pow(16.0, -i++);
+        return std::pow(16.0, -i++); // (1/16)^i
     });
 
+    // beräknar skalär av terms och power_terms(exponenter), börjar från 0.0
     double result = std::inner_product(begin(terms), end(terms), begin(power_terms), 0.0);
 
     std::cout << std::format("{:.15f} \n", result);
