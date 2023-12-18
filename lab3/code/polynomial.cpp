@@ -140,34 +140,40 @@ Polynomial Polynomial::multiply(std::pair<int, int> terms) {
 }
 
 bool operator==(const Polynomial& lhs, const Polynomial& rhs) {
-
 	return lhs.coeff == rhs.coeff;
-
 }
 
-Polynomial operator +(Polynomial& lhs, const Polynomial& rhs) {
+Polynomial operator+(Polynomial lhs, const Polynomial& rhs) {
 	return lhs += rhs;
 }
 
-Polynomial operator +(Polynomial& lhs, const int rhs) {
-	return lhs += rhs;
+Polynomial operator+(Polynomial& lhs, const int rhs) {
+	return lhs += Polynomial(rhs);
 }
 
 
-Polynomial operator +(int lhs, const Polynomial& rhs) {
-	return lhs + rhs;
+Polynomial operator+(int lhs, const Polynomial& rhs) {
+	return Polynomial(lhs) += rhs;
 }
 
-Polynomial operator-(Polynomial& lhs, const Polynomial& rhs) {
+Polynomial operator-(Polynomial lhs, const Polynomial& rhs) {
 	return lhs -= rhs;
 }
 
+// varöfr funkade in förra multiply and assign funktionen????
 Polynomial operator*(Polynomial& lhs, const Polynomial& rhs) {
-	return lhs *= rhs;
+	Polynomial result = 1;
+	result *= lhs;
+	result *= rhs;
+	return result;
+
 }
 
+Polynomial operator*(int lhs, const Polynomial& rhs) {
+	return Polynomial(lhs) *= rhs;
+}
 
 std::ostream& operator<<(std::ostream& os, const Polynomial& p) {
-	os << std::string(p);
+	os << std::string{ p };
 	return os;
 }

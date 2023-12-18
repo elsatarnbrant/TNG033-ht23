@@ -33,7 +33,7 @@ int main() {
     assert(std::string(p2) == std::string("2X^2"));
     assert(p2.degree() == 2);
 
-    // Create polynomial p1 = 2X^1 - 5X^2 + X^6
+    // Create polynomial p1 = 2X^1 - 5X^2 + X^6 p3???
     Polynomial p3{ {{1, 2}, {2, -5}, {6, 1}} };
     assert(std::string(p3) == std::string("2X^1 - 5X^2 + 1X^6"));
     assert(p3.degree() == 6);
@@ -117,15 +117,16 @@ int main() {
                      {25, 120},
                      {26, -450},
                      {27, 240}});
-
+    std::cout << p1 << "innan \n";
     p0 = p4 - p0 + p1 * p2;
     assert(std::string(p0) ==
            std::string("266X^2 - 1408X^3 + 1936X^4 + 800X^5 - 2840X^6 + 3616X^7 - 4479X^8 - "
                        "1320X^9 + 4180X^10 - 648X^28 - 12X^29 + 90X^30 + 60X^32 + 30X^34 - 180X^35 "
                        "+ 225X^36 + 36X^39 - 90X^40 + 9X^44"));
+    std::cout << p1 << " efter\n";
     assert(p0.degree() == 44);
 #endif
-    #if 0
+    #if 1
     /*************************************************
      * Test 7: mixed-mode operations                 *
      *************************************************/

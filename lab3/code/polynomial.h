@@ -39,16 +39,19 @@ public:
 	Polynomial operator+=(const Polynomial& rhs);
 	Polynomial operator-=(const Polynomial& rhs);
 	Polynomial operator*=(const Polynomial& rhs);
-	friend Polynomial operator +(Polynomial& lhs, const Polynomial& rhs);
+
+	friend Polynomial operator +(Polynomial lhs, const Polynomial& rhs);
 
 	friend Polynomial operator +(Polynomial& lhs, const int rhs);
 
 
 	friend Polynomial operator +(int lhs, const Polynomial& rhs);
 
-	friend Polynomial operator-(Polynomial& lhs, const Polynomial& rhs);
+	friend Polynomial operator-(Polynomial lhs, const Polynomial& rhs);
 
 	friend Polynomial operator*(Polynomial& lhs, const Polynomial& rhs);
+
+	friend Polynomial operator*(int lhs, const Polynomial& rhs);
 
 	friend bool operator==(const Polynomial& lhs, const Polynomial& rhs);
 
